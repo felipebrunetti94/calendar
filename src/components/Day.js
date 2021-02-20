@@ -10,7 +10,7 @@ const Day = ({ day, onRemove }) => {
 
   return (
     <li className="day">
-      <button onClick={handleOnRemove}>remove all</button>
+      {hasReminders && <button onClick={handleOnRemove}>remove all</button>}
       <span>{date}</span>
       <span>{weather}</span>
       {hasReminders && <Reminders reminders={reminders} />}

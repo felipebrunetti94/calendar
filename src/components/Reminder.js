@@ -1,5 +1,5 @@
 const Reminder = ({ reminder }) => {
-  const style = { backgroud: reminder.color };
+  const style = { background: reminder.color };
   return (
     <dl style={style}>
       <dt>Message:</dt>
@@ -13,7 +13,23 @@ const Reminder = ({ reminder }) => {
 };
 
 const Reminders = ({ reminders }) => {
-  return reminders.map((reminder) => <Reminder reminder={reminder} />);
+  return (
+    <ul>
+      {reminders.sort(compareTime).map((reminder) => (
+        <li key={reminder.message}>
+          <Reminder reminder={reminder} />
+        </li>
+      ))}
+    </ul>
+  );
+};
+
+const convertToMinutes = ({ time }) => {
+  const [hour, minutes] = time.split(":");
+  return hour * 60 + minutes;
+};
+const compareTime = (a, b) => {
+  return convertToMinutes(a) - convertToMinutes(b);
 };
 
 export default Reminders;

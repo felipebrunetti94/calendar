@@ -12,6 +12,8 @@ const Reminder = ({ reminder, onClick }) => {
       <dd>{reminder.time}</dd>
       <dt>city</dt>
       <dd>{reminder.city}</dd>
+      <dt>weather</dt>
+      <dd>{reminder.weather}</dd>
     </dl>
   );
 };

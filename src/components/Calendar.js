@@ -18,6 +18,7 @@ const Calendar = ({}) => {
     editReminder,
     openAddReminder,
     removeAllReminders,
+    getWeather,
   } = useCalendar();
 
   return (
@@ -37,6 +38,7 @@ const Calendar = ({}) => {
           setReminder={setReminder}
           reminder={editingReminder}
           onAdd={addReminder}
+          getWeather={getWeather}
         />
       )}
 
@@ -45,6 +47,7 @@ const Calendar = ({}) => {
           setReminder={setReminder}
           reminder={editingReminder}
           onEdit={editReminder}
+          getWeather={getWeather}
           onRemove={removeReminder}
         />
       )}

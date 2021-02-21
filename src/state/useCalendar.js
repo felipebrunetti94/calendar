@@ -1,6 +1,7 @@
 import { useReducer } from "react";
 import reducer from "./reducer";
 import * as CALENDAR from "./types";
+import getWeather from "../app/getWeather";
 
 const useCalendar = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
@@ -53,12 +54,29 @@ const useCalendar = () => {
     openAddReminder,
     cancelEditing,
     removeAllReminders,
+    getWeather: (city) => {
+      dispatch({ type: CALENDAR.WEATHER_REQUEST });
+      return getWeather(city, {
+        onSuccess: (weather) =>
+          dispatch({
+            type: CALENDAR.WEATHER_REQUEST_SUCCESS,
+            payload: { weather },
+          }),
+        onError: (error) =>
+          dispatch({
+            type: CALENDAR.WEATHER_REQUEST_ERROR,
+            payload: { error },
+          }),
+      });
+    },
   };
 };
 
 const initialState = {
   editingReminder: {
     date: null,
+    isLoading: false,
+    error: null,
   },
   days: new Array(35).fill(null).map((_, idx) => idx + 1),
   reminders: {},

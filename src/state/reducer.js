@@ -18,6 +18,7 @@ const reducer = (state, action) => {
         ...state,
         editingReminder: {},
         reminders: {
+          ...state.reminders,
           [state.editingReminder.date]: state.reminders[
             state.editingReminder.date
           ].map((reminder) =>
@@ -41,6 +42,7 @@ const reducer = (state, action) => {
         ...state,
         editingReminder: {},
         reminders: {
+          ...state.reminders,
           [state.editingReminder.date]: state.reminders[
             state.editingReminder.date
           ]
@@ -78,6 +80,35 @@ const reducer = (state, action) => {
         ...state,
         editingReminder: {},
         status: "",
+      };
+    case CALENDAR.WEATHER_REQUEST:
+      return {
+        ...state,
+        editingReminder: {
+          ...state.editingReminder,
+          isLoading: true,
+          error: null,
+        },
+      };
+    case CALENDAR.WEATHER_REQUEST_SUCCESS:
+      return {
+        ...state,
+        editingReminder: {
+          ...state.editingReminder,
+          isLoading: false,
+          weather: action.payload.weather,
+          error: null,
+        },
+      };
+    case CALENDAR.WEATHER_REQUEST_ERROR:
+      return {
+        ...state,
+        editingReminder: {
+          ...state.editingReminder,
+          isLoading: false,
+          error: action.payload.error,
+          weather: "",
+        },
       };
     default:
       return state;

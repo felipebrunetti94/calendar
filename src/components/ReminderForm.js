@@ -1,3 +1,5 @@
+import ErrorMessage from "./ErrorMessage";
+
 const ReminderForm = ({
   reminder = {},
   setReminder,
@@ -6,6 +8,7 @@ const ReminderForm = ({
   showRemoveButton = false,
   onRemove,
   actionTitle,
+  getWeather,
 }) => {
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -21,6 +24,11 @@ const ReminderForm = ({
     event.preventDefault();
     onRemove(reminder);
   };
+
+  const handleBlur = () => {
+    getWeather(reminder.city);
+  };
+
   return (
     <div onClick={onClick}>
       <h2>{reminder.date}</h2>
@@ -57,8 +65,27 @@ const ReminderForm = ({
           value={reminder.city || ""}
           onChange={handleChange}
           data-testid="input-city"
+          onBlur={handleBlur}
         />
-        <input type="submit" value={actionTitle} />
+        {reminder.error && <ErrorMessage error={reminder.error} />}
+        {reminder.isLoading && <span>Looking for the weather forecast...</span>}
+        {reminder.weather && (
+          <>
+            <label htmlFor="weather">weather</label>
+            <input
+              name="weather"
+              type="text"
+              readOnly
+              value={reminder.weather || ""}
+              data-testid="input-weather"
+            />
+          </>
+        )}
+        <input
+          type="submit"
+          value={actionTitle}
+          disabled={reminder.isLoading}
+        />
         {showRemoveButton && <button onClick={handleRemove}>Remove</button>}
       </form>
     </div>

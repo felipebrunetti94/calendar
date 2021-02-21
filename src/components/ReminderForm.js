@@ -1,13 +1,25 @@
-const ReminderForm = ({ reminder = {}, setReminder, onSubmit, onClick }) => {
+const ReminderForm = ({
+  reminder = {},
+  setReminder,
+  onSubmit,
+  onClick,
+  showRemoveButton = false,
+  onRemove,
+  actionTitle,
+}) => {
   const handleChange = (event) => {
     const { name, value } = event.target;
-    console.log("value", value, typeof value);
     setReminder({ [name]: value });
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
     onSubmit(reminder);
+  };
+
+  const handleRemove = (event) => {
+    event.preventDefault();
+    onRemove(reminder);
   };
   return (
     <div onClick={onClick}>
@@ -46,7 +58,8 @@ const ReminderForm = ({ reminder = {}, setReminder, onSubmit, onClick }) => {
           onChange={handleChange}
           data-testid="input-city"
         />
-        <input type="submit" value="Add" />
+        <input type="submit" value={actionTitle} />
+        {showRemoveButton && <button onClick={handleRemove}>Remove</button>}
       </form>
     </div>
   );

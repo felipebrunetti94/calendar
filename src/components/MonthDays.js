@@ -1,15 +1,22 @@
 import Day from "./Day";
 
-const MonthDays = ({ size }) => {
-  const days = new Array(size).fill({
-    reminders: [],
-    weather: "xx",
-    date: "000",
-  });
+const MonthDays = ({
+  onDayClick,
+  days,
+  reminders,
+  onReminderClick,
+  onRemoveAll,
+}) => {
   return (
     <ol>
       {days.map((day) => (
-        <Day day={day} />
+        <Day
+          day={day}
+          onClick={onDayClick}
+          reminders={reminders[day]}
+          onReminderClick={onReminderClick}
+          onRemoveAll={onRemoveAll}
+        />
       ))}
     </ol>
   );

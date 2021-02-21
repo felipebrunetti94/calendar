@@ -1,7 +1,11 @@
-const Reminder = ({ reminder }) => {
+const Reminder = ({ reminder, onClick }) => {
   const style = { background: reminder.color };
+  const handleClick = (event) => {
+    event.stopPropagation();
+    onClick(reminder);
+  };
   return (
-    <dl style={style}>
+    <dl style={style} onClick={handleClick}>
       <dt>Message:</dt>
       <dd>{reminder.message}</dd>
       <dt>Time</dt>
@@ -12,12 +16,12 @@ const Reminder = ({ reminder }) => {
   );
 };
 
-const Reminders = ({ reminders }) => {
+const Reminders = ({ reminders, onReminderClick }) => {
   return (
     <ul>
       {reminders.sort(compareTime).map((reminder) => (
         <li key={reminder.message}>
-          <Reminder reminder={reminder} />
+          <Reminder reminder={reminder} onClick={onReminderClick} />
         </li>
       ))}
     </ul>

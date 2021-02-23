@@ -110,6 +110,12 @@ const reducer = (state, action) => {
           weather: "",
         },
       };
+    case CALENDAR.OPEN_INFO:
+      return {
+        ...state,
+        editingReminder: action.payload.reminder,
+        status: "INFO",
+      };
     default:
       return state;
   }

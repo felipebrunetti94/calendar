@@ -1,4 +1,5 @@
-import ErrorMessage from "./ErrorMessage";
+import { format, parseISO } from "date-fns";
+import ErrorMessage from "../error/ErrorMessage";
 
 const ReminderForm = ({
   reminder = {},
@@ -6,6 +7,7 @@ const ReminderForm = ({
   onSubmit,
   onClick,
   showRemoveButton = false,
+  showDate = false,
   onRemove,
   actionTitle,
   getWeather,
@@ -13,6 +15,12 @@ const ReminderForm = ({
   const handleChange = (event) => {
     const { name, value } = event.target;
     setReminder({ [name]: value });
+  };
+
+  const handleDateChange = (event) => {
+    const { name, value } = event.target;
+    const nextDate = parseISO(value);
+    setReminder({ [name]: nextDate });
   };
 
   const handleSubmit = (event) => {
@@ -28,19 +36,42 @@ const ReminderForm = ({
   const handleBlur = () => {
     getWeather(reminder.city);
   };
+  const dateFormat = "PPPP";
 
   return (
     <div onClick={onClick}>
-      <h2>{reminder.date}</h2>
+      <h2>{format(reminder.date, dateFormat)}</h2>
       <form onSubmit={handleSubmit}>
-        <label htmlFor="message">Message:</label>
+        {showDate && (
+          <>
+            <label htmlFor="date">Date:</label>
+            <input
+              name="date"
+              type="date"
+              maxLength="30"
+              value={reminder.date || ""}
+              onChange={handleDateChange}
+              data-testid="input-date"
+            />
+          </>
+        )}
+        <label htmlFor="title">Title:</label>
         <input
-          name="message"
+          autoFocus
+          name="title"
           type="text"
           maxLength="30"
-          value={reminder.message || ""}
+          value={reminder.title || ""}
           onChange={handleChange}
-          data-testid="input-message"
+          data-testid="input-title"
+        />
+        <label htmlFor="description">Description:</label>
+        <input
+          name="description"
+          type="textbox"
+          value={reminder.description || ""}
+          onChange={handleChange}
+          data-testid="input-description"
         />
         <label htmlFor="time">Time</label>
         <input

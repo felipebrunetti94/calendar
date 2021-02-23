@@ -1,6 +1,6 @@
 import ReminderForm from "./ReminderForm";
 import { useReminder } from "../../state/reminder/context";
-const AddReminder = () => {
+const AddReminder = ({ ...props }) => {
   const {
     editingReminder,
     setReminder,
@@ -15,6 +15,7 @@ const AddReminder = () => {
       setReminder={setReminder}
       getWeather={getWeather}
       actionTitle="Add"
+      {...props}
     />
   );
 };

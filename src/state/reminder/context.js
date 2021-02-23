@@ -48,19 +48,14 @@ const ReminderProvider = ({ children }) => {
     const cancelEditing = () => {
       dispatch({ type: REMINDER.CANCEL_EDITING });
     };
-    const openInfo = (reminder) => {
-      dispatch({ type: REMINDER.OPEN_INFO, payload: { reminder } });
-    };
 
     const getBy = (date) =>
       reminders.filter((reminder) => isSameDay(reminder.date, date));
 
     return {
       getBy,
-      openInfo,
       days,
       reminders,
-      showInfo: status === "INFO",
       showEdit: status === "EDIT",
       showAdd: status === "ADD",
       setReminder,

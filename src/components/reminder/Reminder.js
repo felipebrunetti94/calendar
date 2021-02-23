@@ -1,3 +1,4 @@
+import { getDate } from "date-fns";
 import { useReminder } from "../../state/reminder/context";
 
 const Reminder = ({ reminder, onClick }) => {
@@ -24,6 +25,7 @@ const Reminders = ({ day, getDate }) => {
       {getDate()}
       <div
         className={`reminder-container ${isOverFlowing && "overflow"}`}
+        data-testid={`${getDate(day)}`}
         onClick={() => openAddReminder(day)}
       >
         {reminders &&

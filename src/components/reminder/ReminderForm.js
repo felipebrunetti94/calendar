@@ -19,8 +19,7 @@ const ReminderForm = ({
 
   const handleDateChange = (event) => {
     const { name, value } = event.target;
-    const nextDate = parseISO(value);
-    setReminder({ [name]: nextDate });
+    setReminder({ [name]: parseISO(value) });
   };
 
   const handleSubmit = (event) => {
@@ -34,7 +33,9 @@ const ReminderForm = ({
   };
 
   const handleBlur = () => {
-    getWeather(reminder.city);
+    if (reminder.city && reminder.date) {
+      getWeather(reminder.city);
+    }
   };
   const dateFormat = "PPPP";
 
@@ -77,7 +78,7 @@ const ReminderForm = ({
         <input
           name="time"
           type="time"
-          value={reminder.time || ""}
+          value={reminder.time || "12:00"}
           onChange={handleChange}
           data-testid="input-time"
         />

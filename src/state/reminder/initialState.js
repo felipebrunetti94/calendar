@@ -1,10 +1,10 @@
 const initialState = {
   editingReminder: {
-    date: "12",
+    time: "12:00",
     isLoading: false,
     error: null,
   },
-  reminders: {},
+  reminders: [],
 };
 
 export default initialState;

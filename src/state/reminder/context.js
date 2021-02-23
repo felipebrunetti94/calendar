@@ -3,6 +3,8 @@ import initialState from "./initialState";
 import reducer from "./reducer";
 import * as REMINDER from "./types";
 import getWeather from "../../app/getWeather";
+import createReminder from "../../app/createReminder";
+import { isSameDay } from "date-fns";
 
 const ReminderContext = createContext(null);
 
@@ -29,15 +31,18 @@ const ReminderProvider = ({ children }) => {
     };
 
     const addReminder = (reminder) => {
-      dispatch({ type: REMINDER.ADD_REMINDER, payload: { reminder } });
+      dispatch({
+        type: REMINDER.ADD_REMINDER,
+        payload: { reminder: createReminder(reminder) },
+      });
     };
 
     const removeReminder = (reminder) => {
       dispatch({ type: REMINDER.REMOVE_REMINDER, payload: { reminder } });
     };
 
-    const removeAllReminders = (day) => {
-      dispatch({ type: REMINDER.REMOVE_ALL_REMINDERS, payload: { day } });
+    const removeAllReminders = (date) => {
+      dispatch({ type: REMINDER.REMOVE_ALL_REMINDERS, payload: { date } });
     };
 
     const cancelEditing = () => {
@@ -46,7 +51,12 @@ const ReminderProvider = ({ children }) => {
     const openInfo = (reminder) => {
       dispatch({ type: REMINDER.OPEN_INFO, payload: { reminder } });
     };
+
+    const getBy = (date) =>
+      reminders.filter((reminder) => isSameDay(reminder.date, date));
+
     return {
+      getBy,
       openInfo,
       days,
       reminders,

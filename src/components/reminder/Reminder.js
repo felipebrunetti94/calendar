@@ -16,18 +16,20 @@ const Reminder = ({ reminder, onClick }) => {
 };
 
 const Reminders = ({ day, getDate }) => {
-  const { openInfo, reminders, openAddReminder } = useReminder();
+  const { openEditReminder, getBy, openAddReminder } = useReminder();
+  const reminders = getBy(day);
   return (
     <>
       {getDate()}
       <div className="reminder-container" onClick={() => openAddReminder(day)}>
-        {reminders[day] &&
-          reminders[day]
+        {reminders &&
+          reminders
             .sort(compareTime)
             .map((reminder) => (
               <Reminder
+                key={reminder.key}
                 reminder={reminder}
-                onClick={() => openInfo(reminder)}
+                onClick={() => openEditReminder(reminder)}
               />
             ))}
       </div>

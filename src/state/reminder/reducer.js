@@ -1,3 +1,4 @@
+import initialState from "./initialState";
 import * as CALENDAR from "./types";
 
 const reducer = (state, action) => {
@@ -14,25 +15,21 @@ const reducer = (state, action) => {
         status: "EDIT",
       };
     case CALENDAR.EDIT_REMINDER:
+      const updateReminder = (reminder) =>
+        reminder.id === action.payload.reminder.id
+          ? action.payload.reminder
+          : reminder;
       return {
         ...state,
-        editingReminder: {},
-        reminders: {
-          ...state.reminders,
-          [state.editingReminder.date]: state.reminders[
-            state.editingReminder.date
-          ].map((reminder) =>
-            reminder.message === state.editingReminder.message
-              ? state.editingReminder
-              : reminder
-          ),
-        },
+        editingReminder: initialState.editingReminder,
+        reminders: state.reminders.map(updateReminder),
         status: "",
       };
     case CALENDAR.OPEN_ADD_REMINDER:
       return {
         ...state,
         editingReminder: {
+          ...state.editingReminder,
           date: action.payload.date,
         },
         status: "ADD",
@@ -40,45 +37,28 @@ const reducer = (state, action) => {
     case CALENDAR.ADD_REMINDER:
       return {
         ...state,
-        editingReminder: {},
-        reminders: {
-          ...state.reminders,
-          [state.editingReminder.date]: state.reminders[
-            state.editingReminder.date
-          ]
-            ? [
-                ...state.reminders[state.editingReminder.date],
-                action.payload.reminder,
-              ]
-            : [action.payload.reminder],
-        },
+        editingReminder: initialState.editingReminder,
+        reminders: [...state.reminders, action.payload.reminder],
         status: "",
       };
     case CALENDAR.REMOVE_ALL_REMINDERS:
+      const filterByDate = (reminder) => reminder.date !== action.payload.date;
       return {
         ...state,
-        reminders: {
-          ...state.reminders,
-          [action.payload.day]: undefined,
-        },
+        reminders: state.reminders.filter(filterByDate),
       };
     case CALENDAR.REMOVE_REMINDER:
+      const filterReminders = (reminder) =>
+        reminder.id !== action.payload.reminder.id;
       return {
         ...state,
         status: "",
-        reminders: {
-          ...state.reminders,
-          [action.payload.reminder.date]: state.reminders[
-            action.payload.reminder.date
-          ].filter(
-            (reminder) => reminder.message !== action.payload.reminder.message
-          ),
-        },
+        reminders: state.reminders.filter(filterReminders),
       };
     case CALENDAR.CANCEL_EDITING:
       return {
         ...state,
-        editingReminder: {},
+        editingReminder: initialState.editingReminder,
         status: "",
       };
     case CALENDAR.WEATHER_REQUEST:

@@ -18,10 +18,14 @@ const Reminder = ({ reminder, onClick }) => {
 const Reminders = ({ day, getDate }) => {
   const { openEditReminder, getBy, openAddReminder } = useReminder();
   const reminders = getBy(day);
+  const isOverFlowing = reminders.length > 3;
   return (
     <>
       {getDate()}
-      <div className="reminder-container" onClick={() => openAddReminder(day)}>
+      <div
+        className={`reminder-container ${isOverFlowing && "overflow"}`}
+        onClick={() => openAddReminder(day)}
+      >
         {reminders &&
           reminders
             .sort(compareTime)

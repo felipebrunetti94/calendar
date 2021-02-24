@@ -1,4 +1,4 @@
-import { getDate } from "date-fns";
+import { Button } from "@material-ui/core";
 import { useReminder } from "../../state/reminder/context";
 
 const Reminder = ({ reminder, onClick }) => {
@@ -17,12 +17,28 @@ const Reminder = ({ reminder, onClick }) => {
 };
 
 const Reminders = ({ day, getDate }) => {
-  const { openEditReminder, getBy, openAddReminder } = useReminder();
+  const {
+    openEditReminder,
+    getBy,
+    openAddReminder,
+    removeAllReminders,
+  } = useReminder();
   const reminders = getBy(day);
   const isOverFlowing = reminders.length > 3;
   return (
     <>
       {getDate()}
+      {!!reminders.length && (
+        <span
+          role="button"
+          className="col cell danger"
+          color="secondary"
+          onClick={() => removeAllReminders(day)}
+        >
+          Clear Day
+        </span>
+      )}
+
       <div
         className={`reminder-container ${isOverFlowing && "overflow"}`}
         data-testid={`${getDate(day)}`}

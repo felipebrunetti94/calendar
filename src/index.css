@@ -27,6 +27,7 @@
   --border-color-dark: #202020;
   --bg-color: #f9f9f9;
   --neutral-color: #fff;
+  --danger-color: "#FF0000";
 }
 
 * {
@@ -190,6 +191,21 @@ main {
   top: 0.75em;
   left: 0.75em;
   font-weight: 700;
+}
+
+.calendar .body .cell .danger {
+  position: absolute;
+  width: fit-content;
+  height: fit-content;
+  font-size: 82.5%;
+  line-height: 1;
+  top: 0.75em;
+  right: 0.75em;
+  font-weight: 700;
+}
+
+.danger {
+  color: var(--danger-color);
 }
 
 .calendar .body .disabled {

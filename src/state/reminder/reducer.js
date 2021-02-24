@@ -1,20 +1,20 @@
 import initialState from "./initialState";
-import * as CALENDAR from "./types";
+import * as REMINDER from "./types";
 
 const reducer = (state, action) => {
   switch (action.type) {
-    case CALENDAR.SET_REMINDER_VALUE:
+    case REMINDER.SET_REMINDER_VALUE:
       return {
         ...state,
         editingReminder: { ...state.editingReminder, ...action.payload.value },
       };
-    case CALENDAR.OPEN_EDIT_REMINDER:
+    case REMINDER.OPEN_EDIT_REMINDER:
       return {
         ...state,
         editingReminder: action.payload.reminder,
         status: "EDIT",
       };
-    case CALENDAR.EDIT_REMINDER:
+    case REMINDER.EDIT_REMINDER:
       const updateReminder = (reminder) =>
         reminder.id === action.payload.reminder.id
           ? action.payload.reminder
@@ -25,7 +25,7 @@ const reducer = (state, action) => {
         reminders: state.reminders.map(updateReminder),
         status: "",
       };
-    case CALENDAR.OPEN_ADD_REMINDER:
+    case REMINDER.OPEN_ADD_REMINDER:
       return {
         ...state,
         editingReminder: {
@@ -34,20 +34,20 @@ const reducer = (state, action) => {
         },
         status: "ADD",
       };
-    case CALENDAR.ADD_REMINDER:
+    case REMINDER.ADD_REMINDER:
       return {
         ...state,
         editingReminder: initialState.editingReminder,
         reminders: [...state.reminders, action.payload.reminder],
         status: "",
       };
-    case CALENDAR.REMOVE_ALL_REMINDERS:
+    case REMINDER.REMOVE_ALL_REMINDERS:
       const filterByDate = (reminder) => reminder.date !== action.payload.date;
       return {
         ...state,
         reminders: state.reminders.filter(filterByDate),
       };
-    case CALENDAR.REMOVE_REMINDER:
+    case REMINDER.REMOVE_REMINDER:
       const filterReminders = (reminder) =>
         reminder.id !== action.payload.reminder.id;
       return {
@@ -55,13 +55,13 @@ const reducer = (state, action) => {
         status: "",
         reminders: state.reminders.filter(filterReminders),
       };
-    case CALENDAR.CANCEL_EDITING:
+    case REMINDER.CANCEL_EDITING:
       return {
         ...state,
         editingReminder: initialState.editingReminder,
         status: "",
       };
-    case CALENDAR.WEATHER_REQUEST:
+    case REMINDER.WEATHER_REQUEST:
       return {
         ...state,
         editingReminder: {
@@ -70,7 +70,7 @@ const reducer = (state, action) => {
           error: null,
         },
       };
-    case CALENDAR.WEATHER_REQUEST_SUCCESS:
+    case REMINDER.WEATHER_REQUEST_SUCCESS:
       return {
         ...state,
         editingReminder: {
@@ -80,7 +80,7 @@ const reducer = (state, action) => {
           error: null,
         },
       };
-    case CALENDAR.WEATHER_REQUEST_ERROR:
+    case REMINDER.WEATHER_REQUEST_ERROR:
       return {
         ...state,
         editingReminder: {
